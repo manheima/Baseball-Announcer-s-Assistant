@@ -3,12 +3,13 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
+  height: 100vh; /* Change from min-height to height */
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .toggle-button {
@@ -33,6 +34,8 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 100%; /* Prevent horizontal overflow */
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
 }
 
 table {
