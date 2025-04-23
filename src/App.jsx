@@ -37,11 +37,19 @@ function App() {
     setAwayPositions(updatedAwayPositions);
   };
 
+  const homePitcherIndex = homePositions.indexOf("P");
+  const homePitcherName = homePitcherIndex !== -1 ? homePlayers[homePitcherIndex] : "";
+
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
         {isTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
+      {!isTableVisible && homePitcherName && (
+        <div className="pitcher-display">
+          {homePitcherName}
+        </div>
+      )}
       {isTableVisible && (
         <div className="table-container">
           <table>

@@ -63,3 +63,17 @@ select {
   width: 100%;
   padding: 5px;
 }
+
+.pitcher-display {
+  position: absolute;
+  top: 60%; /* Adjusted from 40% to 65%. Higher is lower in the screen */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
