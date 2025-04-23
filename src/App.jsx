@@ -19,6 +19,7 @@ function App() {
           <table>
             <thead>
               <tr>
+                <th>#</th>
                 <th>Home</th>
                 <th>Position</th>
                 <th>Away</th>
@@ -28,6 +29,7 @@ function App() {
             <tbody>
               {Array.from({ length: 9 }).map((_, index) => (
                 <tr key={index}>
+                  <td>{index + 1}</td>
                   <td>
                     <input type="text" placeholder={`Home Player ${index + 1}`} />
                   </td>
