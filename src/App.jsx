@@ -5,6 +5,8 @@ function App() {
   const [isTableVisible, setIsTableVisible] = useState(true);
   const [homePlayers, setHomePlayers] = useState(Array(9).fill(''));
   const [awayPlayers, setAwayPlayers] = useState(Array(9).fill(''));
+  const [homePositions, setHomePositions] = useState(Array(9).fill(''));
+  const [awayPositions, setAwayPositions] = useState(Array(9).fill(''));
   const positions = ["P", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF"];
 
   const toggleTableVisibility = () => {
@@ -21,6 +23,18 @@ function App() {
     const updatedAwayPlayers = [...awayPlayers];
     updatedAwayPlayers[index] = value;
     setAwayPlayers(updatedAwayPlayers);
+  };
+
+  const handleHomePositionChange = (index, value) => {
+    const updatedHomePositions = [...homePositions];
+    updatedHomePositions[index] = value;
+    setHomePositions(updatedHomePositions);
+  };
+
+  const handleAwayPositionChange = (index, value) => {
+    const updatedAwayPositions = [...awayPositions];
+    updatedAwayPositions[index] = value;
+    setAwayPositions(updatedAwayPositions);
   };
 
   return (
@@ -53,7 +67,11 @@ function App() {
                     />
                   </td>
                   <td>
-                    <select>
+                    <select
+                      value={homePositions[index]}
+                      onChange={(e) => handleHomePositionChange(index, e.target.value)}
+                    >
+                      <option value="">Bench</option>
                       {positions.map((position) => (
                         <option key={position} value={position}>
                           {position}
@@ -70,7 +88,11 @@ function App() {
                     />
                   </td>
                   <td>
-                    <select>
+                    <select
+                      value={awayPositions[index]}
+                      onChange={(e) => handleAwayPositionChange(index, e.target.value)}
+                    >
+                      <option value="">Bench</option>
                       {positions.map((position) => (
                         <option key={position} value={position}>
                           {position}
