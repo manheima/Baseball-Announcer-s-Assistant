@@ -1,27 +1,63 @@
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [isTableVisible, setIsTableVisible] = useState(true);
+  const positions = ["P", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF"];
+
+  const toggleTableVisibility = () => {
+    setIsTableVisible(!isTableVisible);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
+      <button className="toggle-button" onClick={toggleTableVisibility}>
+        {isTableVisible ? 'Hide Table' : 'Show Table'}
+      </button>
+      {isTableVisible && (
+        <div className="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Home</th>
+                <th>Position</th>
+                <th>Away</th>
+                <th>Position</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: 9 }).map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input type="text" placeholder={`Home Player ${index + 1}`} />
+                  </td>
+                  <td>
+                    <select>
+                      {positions.map((position) => (
+                        <option key={position} value={position}>
+                          {position}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" placeholder={`Away Player ${index + 1}`} />
+                  </td>
+                  <td>
+                    <select>
+                      {positions.map((position) => (
+                        <option key={position} value={position}>
+                          {position}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
