@@ -11,6 +11,17 @@ function App() {
   const [homePositions, setHomePositions] = useState(Array(9).fill(''));
   const [awayPositions, setAwayPositions] = useState(Array(9).fill(''));
   const positions = ["P", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF"];
+  const classNameMap = {
+    P: 'pitcher-display',    // Pitcher
+    C: 'catcher-display',    // Catcher
+    '1B': 'firstbase-display', // First Base
+    '2B': 'secondbase-display', // Second Base
+    '3B': 'thirdbase-display',  // Third Base
+    SS: 'shortstop-display',   // Shortstop
+    RF: 'rightfield-display',  // Right Field
+    LF: 'leftfield-display',   // Left Field
+    CF: 'centerfield-display', // Center Field
+  };
 
   const toggleTableVisibility = () => {
     setIsTableVisible(!isTableVisible);
@@ -52,19 +63,9 @@ function App() {
     setAwayPositions(updatedAwayPositions);
   };
 
-  // Get the name of the pitcher and catcher for the current inning half
-  const homePitcherIndex = homePositions.indexOf("P");
-  const awayPitcherIndex = awayPositions.indexOf("P");
-  const homeCatcherIndex = homePositions.indexOf("C");
-  const awayCatcherIndex = awayPositions.indexOf("C");
-
-  const homePitcherName = homePitcherIndex !== -1 ? homePlayers[homePitcherIndex] : "";
-  const awayPitcherName = awayPitcherIndex !== -1 ? awayPlayers[awayPitcherIndex] : "";
-  const homeCatcherName = homeCatcherIndex !== -1 ? homePlayers[homeCatcherIndex] : "";
-  const awayCatcherName = awayCatcherIndex !== -1 ? awayPlayers[awayCatcherIndex] : "";
-
-  const currentPitcherName = isTopInning ? homePitcherName : awayPitcherName;
-  const currentCatcherName = isTopInning ? homeCatcherName : awayCatcherName;
+  // Get the current players for all positions based on the inning half
+  const currentPlayers = isTopInning ? homePlayers : awayPlayers;
+  const currentPositions = isTopInning ? homePositions : awayPositions;
 
   return (
     <div className="App">
@@ -79,24 +80,24 @@ function App() {
       >
         {isHovering
           ? isTopInning
-            ? 'Switch to Bottom'
-            : 'Switch to Top'
+            ? 'Switch to Bottom Half'
+            : 'Switch to Top Half'
           : isTopInning
-          ? 'Top of Inning'
-          : 'Bottom of Inning'}
+          ? 'Top Half'
+          : 'Bottom Half'}
       </button>
       {!isTableVisible && (
         <>
-          {currentPitcherName && (
-            <div className="pitcher-display">
-              {currentPitcherName}
-            </div>
-          )}
-          {currentCatcherName && (
-            <div className="catcher-display">
-              {currentCatcherName}
-            </div>
-          )}
+          {positions.map((position) => {
+            const playerName = currentPlayers[currentPositions.indexOf(position)];
+            return (
+              playerName && (
+                <div key={position} className={classNameMap[position]}>
+                  {playerName}
+                </div>
+              )
+            );
+          })}
         </>
       )}
       {isTableVisible && (

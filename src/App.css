@@ -81,11 +81,16 @@ select {
   padding: 5px;
 }
 
-.pitcher-display {
+.pitcher-display,
+.catcher-display,
+.firstbase-display,
+.secondbase-display,
+.thirdbase-display,
+.shortstop-display,
+.leftfield-display,
+.centerfield-display,
+.rightfield-display {
   position: absolute;
-  top: 60%; /* Position for the pitcher */
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.8);
   padding: 10px 20px;
   border-radius: 5px;
@@ -93,18 +98,50 @@ select {
   font-weight: bold;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+}
+
+.pitcher-display {
+  top: 60%; /* Position for the pitcher */
+  left: 50%;
 }
 
 .catcher-display {
-  position: absolute;
   top: 75%; /* Position for the catcher */
   left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.firstbase-display {
+  top: 65%;
+  left: 70%;
+}
+
+.secondbase-display {
+  top: 50%;
+  left: 60%;
+}
+
+.thirdbase-display {
+  top: 65%;
+  left: 30%;
+}
+
+.shortstop-display {
+  top: 50%;
+  left: 40%;
+}
+
+.leftfield-display {
+  top: 30%;
+  left: 20%;
+}
+
+.centerfield-display {
+  top: 20%;
+  left: 50%;
+}
+
+.rightfield-display {
+  top: 30%;
+  left: 80%;
 }
