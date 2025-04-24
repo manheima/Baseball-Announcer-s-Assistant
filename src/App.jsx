@@ -3,6 +3,9 @@ import './App.css';
 
 function App() {
   const [isTableVisible, setIsTableVisible] = useState(true);
+  const [isTopInning, setIsTopInning] = useState(true); // State to track inning half
+  const [isHovering, setIsHovering] = useState(false); // State to track hover
+
   const [homePlayers, setHomePlayers] = useState(Array(9).fill(''));
   const [awayPlayers, setAwayPlayers] = useState(Array(9).fill(''));
   const [homePositions, setHomePositions] = useState(Array(9).fill(''));
@@ -11,6 +14,18 @@ function App() {
 
   const toggleTableVisibility = () => {
     setIsTableVisible(!isTableVisible);
+  };
+
+  const toggleInningHalf = () => {
+    setIsTopInning(!isTopInning);
+  };
+
+  const handleHoverEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleHoverLeave = () => {
+    setIsHovering(false);
   };
 
   const handleHomePlayerChange = (index, value) => {
@@ -37,18 +52,52 @@ function App() {
     setAwayPositions(updatedAwayPositions);
   };
 
+  // Get the name of the pitcher and catcher for the current inning half
   const homePitcherIndex = homePositions.indexOf("P");
+  const awayPitcherIndex = awayPositions.indexOf("P");
+  const homeCatcherIndex = homePositions.indexOf("C");
+  const awayCatcherIndex = awayPositions.indexOf("C");
+
   const homePitcherName = homePitcherIndex !== -1 ? homePlayers[homePitcherIndex] : "";
+  const awayPitcherName = awayPitcherIndex !== -1 ? awayPlayers[awayPitcherIndex] : "";
+  const homeCatcherName = homeCatcherIndex !== -1 ? homePlayers[homeCatcherIndex] : "";
+  const awayCatcherName = awayCatcherIndex !== -1 ? awayPlayers[awayCatcherIndex] : "";
+
+  const currentPitcherName = isTopInning ? homePitcherName : awayPitcherName;
+  const currentCatcherName = isTopInning ? homeCatcherName : awayCatcherName;
 
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
         {isTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
-      {!isTableVisible && homePitcherName && (
-        <div className="pitcher-display">
-          {homePitcherName}
-        </div>
+      <button
+        className="inning-toggle-button"
+        onClick={toggleInningHalf}
+        onMouseEnter={handleHoverEnter}
+        onMouseLeave={handleHoverLeave}
+      >
+        {isHovering
+          ? isTopInning
+            ? 'Switch to Bottom'
+            : 'Switch to Top'
+          : isTopInning
+          ? 'Top of Inning'
+          : 'Bottom of Inning'}
+      </button>
+      {!isTableVisible && (
+        <>
+          {currentPitcherName && (
+            <div className="pitcher-display">
+              {currentPitcherName}
+            </div>
+          )}
+          {currentCatcherName && (
+            <div className="catcher-display">
+              {currentCatcherName}
+            </div>
+          )}
+        </>
       )}
       {isTableVisible && (
         <div className="table-container">

@@ -29,6 +29,23 @@
   background-color: #0056b3;
 }
 
+.inning-toggle-button {
+  position: absolute;
+  top: 20px;
+  left: 140px;
+  background-color: #fa1919;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.inning-toggle-button:hover {
+  background-color: #9b1e1e;
+}
+
 .table-container {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
@@ -66,7 +83,21 @@ select {
 
 .pitcher-display {
   position: absolute;
-  top: 60%; /* Adjusted from 40% to 65%. Higher is lower in the screen */
+  top: 60%; /* Position for the pitcher */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.catcher-display {
+  position: absolute;
+  top: 75%; /* Position for the catcher */
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.8);
