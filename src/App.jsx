@@ -12,15 +12,15 @@ function App() {
   const [awayPositions, setAwayPositions] = useState(Array(9).fill(''));
   const positions = ["P", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF"];
   const classNameMap = {
-    P: 'pitcher-display',    // Pitcher
-    C: 'catcher-display',    // Catcher
-    '1B': 'firstbase-display', // First Base
-    '2B': 'secondbase-display', // Second Base
-    '3B': 'thirdbase-display',  // Third Base
-    SS: 'shortstop-display',   // Shortstop
-    RF: 'rightfield-display',  // Right Field
-    LF: 'leftfield-display',   // Left Field
-    CF: 'centerfield-display', // Center Field
+    P: 'pitcher-display',
+    C: 'catcher-display',
+    '1B': 'firstbase-display',
+    '2B': 'secondbase-display',
+    '3B': 'thirdbase-display',
+    SS: 'shortstop-display',
+    RF: 'rightfield-display',
+    LF: 'leftfield-display',
+    CF: 'centerfield-display',
   };
 
   const toggleTableVisibility = () => {
@@ -67,6 +67,9 @@ function App() {
   const currentPlayers = isTopInning ? homePlayers : awayPlayers;
   const currentPositions = isTopInning ? homePositions : awayPositions;
 
+  // Determine the batting order based on the inning half
+  const battingOrder = isTopInning ? awayPlayers : homePlayers;
+
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
@@ -98,6 +101,14 @@ function App() {
               )
             );
           })}
+          <div className="batting-order-display">
+            <h3>Batting Order</h3>
+            <ol>
+              {battingOrder.map((player, index) => (
+                <li key={index}>{player || `Player ${index + 1}`}</li>
+              ))}
+            </ol>
+          </div>
         </>
       )}
       {isTableVisible && (

@@ -102,12 +102,12 @@ select {
 }
 
 .pitcher-display {
-  top: 60%; /* Position for the pitcher */
+  top: 65%; /* Position for the pitcher */
   left: 50%;
 }
 
 .catcher-display {
-  top: 75%; /* Position for the catcher */
+  top: 85%; /* Position for the catcher */
   left: 50%;
 }
 
@@ -144,4 +144,32 @@ select {
 .rightfield-display {
   top: 30%;
   left: 80%;
+}
+
+.batting-order-display {
+  position: absolute;
+  bottom: 10%;
+  right: 5%;
+  background-color: rgba(0, 123, 255, 0.8); /* Blue background for batting team */
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  text-align: left;
+}
+
+.batting-order-display h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.batting-order-display ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.batting-order-display li {
+  margin-bottom: 5px;
 }
