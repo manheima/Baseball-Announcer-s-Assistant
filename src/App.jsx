@@ -78,7 +78,16 @@ function App() {
 
   // Handle moving a player to the base
   const handleMoveToBase = (player) => {
-    setPlayerOnBase(player);
+    if (playerOnBase) {
+      if (playerOnSecondBase) {
+        if (playerOnThirdBase) {
+          setPlayerOnThirdBase(null); // Clear third base if occupied
+        }
+        setPlayerOnThirdBase(playerOnSecondBase); // Move second base player to third base
+      }
+      setPlayerOnSecondBase(playerOnBase); // Move first base player to second base
+    }
+    setPlayerOnBase(player); // Move batting order player to first base
   };
 
   const handleMoveToSecondBase = () => {
