@@ -32,7 +32,9 @@ function App() {
 
   const toggleInningHalf = () => {
     setIsTopInning(!isTopInning);
-    setPlayerOnBase(null); // Clear the player on first base when switching innings
+    setPlayerOnBase(null); // Clear first base
+    setPlayerOnSecondBase(null); // Clear second base
+    setPlayerOnThirdBase(null); // Clear third base
   };
 
   const handleHoverEnter = () => {
@@ -93,6 +95,10 @@ function App() {
     }
   };
 
+  const clearFirstBase = () => setPlayerOnBase(null);
+  const clearSecondBase = () => setPlayerOnSecondBase(null);
+  const clearThirdBase = () => setPlayerOnThirdBase(null);
+
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
@@ -133,6 +139,9 @@ function App() {
                 ←
               </button>
               {playerOnBase}
+              <button className="clear-base-button" onClick={clearFirstBase}>
+                x
+              </button>
             </div>
           )}
           {playerOnSecondBase && (
@@ -144,11 +153,17 @@ function App() {
                 ←
               </button>
               {playerOnSecondBase}
+              <button className="clear-base-button" onClick={clearSecondBase}>
+                x
+              </button>
             </div>
           )}
           {playerOnThirdBase && (
             <div className="on-thirdbase-display">
               {playerOnThirdBase}
+              <button className="clear-base-button" onClick={clearThirdBase}>
+                x
+              </button>
             </div>
           )}
           <div className="batting-order-display">

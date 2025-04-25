@@ -168,7 +168,7 @@ select {
   font-weight: bold;
   display: flex;
   align-items: center;
-  gap: 5px; /* Space between button and player name */
+  gap: 5px; /* Space between buttons and player name */
 }
 
 .on-firstbase-display {
@@ -197,6 +197,20 @@ select {
 
 .move-to-base-button:hover {
   background-color: deepskyblue;
+}
+
+.clear-base-button {
+  padding: 2px 5px; /* Small button size */
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px; /* Smaller font size for the "x" */
+}
+
+.clear-base-button:hover {
+  background-color: darkred;
 }
 
 .batting-order-display {
