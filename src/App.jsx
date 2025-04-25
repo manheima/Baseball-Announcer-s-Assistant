@@ -5,6 +5,7 @@ function App() {
   const [isTableVisible, setIsTableVisible] = useState(true);
   const [isTopInning, setIsTopInning] = useState(true); // State to track inning half
   const [isHovering, setIsHovering] = useState(false); // State to track hover
+  const [playerOnBase, setPlayerOnBase] = useState(null); // State to track player on base
 
   const [homePlayers, setHomePlayers] = useState(Array(9).fill(''));
   const [awayPlayers, setAwayPlayers] = useState(Array(9).fill(''));
@@ -29,6 +30,7 @@ function App() {
 
   const toggleInningHalf = () => {
     setIsTopInning(!isTopInning);
+    setPlayerOnBase(null); // Clear the player on first base when switching innings
   };
 
   const handleHoverEnter = () => {
@@ -70,6 +72,11 @@ function App() {
   // Determine the batting order based on the inning half
   const battingOrder = isTopInning ? awayPlayers : homePlayers;
 
+  // Handle moving a player to the base
+  const handleMoveToBase = (player) => {
+    setPlayerOnBase(player);
+  };
+
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
@@ -101,11 +108,24 @@ function App() {
               )
             );
           })}
+          {playerOnBase && (
+            <div className="on-firstbase-display">
+              {playerOnBase}
+            </div>
+          )}
           <div className="batting-order-display">
             <h3>Batting Order</h3>
             <ol>
               {battingOrder.map((player, index) => (
-                <li key={index}>{player || `Player ${index + 1}`}</li>
+                <li key={index}>
+                  <button
+                    className="move-to-base-button"
+                    onClick={() => handleMoveToBase(player)}
+                  >
+                    ←
+                  </button>
+                  {player || `Player ${index + 1}`}
+                </li>
               ))}
             </ol>
           </div>

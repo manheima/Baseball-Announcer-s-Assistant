@@ -112,7 +112,7 @@ select {
 }
 
 .firstbase-display {
-  top: 65%;
+  top: 60%;
   left: 70%;
 }
 
@@ -144,6 +144,42 @@ select {
 .rightfield-display {
   top: 30%;
   left: 80%;
+}
+
+.on-base-display {
+  position: absolute;
+  top: 65%;
+  left: 60%;
+  background-color: yellow;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.on-firstbase-display {
+  position: absolute;
+  top: 65%;
+  left: 60%;
+  background-color: yellow;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.move-to-base-button {
+  margin-right: 10px; /* Add space between button and player name */
+  padding: 2px 5px; /* Make the button smaller */
+  background-color: lightblue;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px; /* Smaller font size for the arrow */
+}
+
+.move-to-base-button:hover {
+  background-color: deepskyblue;
 }
 
 .batting-order-display {
