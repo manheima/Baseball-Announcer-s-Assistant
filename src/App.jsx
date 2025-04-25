@@ -6,6 +6,8 @@ function App() {
   const [isTopInning, setIsTopInning] = useState(true); // State to track inning half
   const [isHovering, setIsHovering] = useState(false); // State to track hover
   const [playerOnBase, setPlayerOnBase] = useState(null); // State to track player on base
+  const [playerOnSecondBase, setPlayerOnSecondBase] = useState(null); // State for second base player
+  const [playerOnThirdBase, setPlayerOnThirdBase] = useState(null); // State for third base player
 
   const [homePlayers, setHomePlayers] = useState(Array(9).fill(''));
   const [awayPlayers, setAwayPlayers] = useState(Array(9).fill(''));
@@ -77,6 +79,20 @@ function App() {
     setPlayerOnBase(player);
   };
 
+  const handleMoveToSecondBase = () => {
+    if (playerOnBase) {
+      setPlayerOnSecondBase(playerOnBase); // Move player from first base to second base
+      setPlayerOnBase(null); // Clear first base
+    }
+  };
+
+  const handleMoveToThirdBase = () => {
+    if (playerOnSecondBase) {
+      setPlayerOnThirdBase(playerOnSecondBase); // Move player from second base to third base
+      setPlayerOnSecondBase(null); // Clear second base
+    }
+  };
+
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
@@ -110,7 +126,29 @@ function App() {
           })}
           {playerOnBase && (
             <div className="on-firstbase-display">
+              <button
+                className="move-to-base-button"
+                onClick={handleMoveToSecondBase}
+              >
+                ←
+              </button>
               {playerOnBase}
+            </div>
+          )}
+          {playerOnSecondBase && (
+            <div className="on-secondbase-display">
+              <button
+                className="move-to-base-button"
+                onClick={handleMoveToThirdBase}
+              >
+                ←
+              </button>
+              {playerOnSecondBase}
+            </div>
+          )}
+          {playerOnThirdBase && (
+            <div className="on-thirdbase-display">
+              {playerOnThirdBase}
             </div>
           )}
           <div className="batting-order-display">

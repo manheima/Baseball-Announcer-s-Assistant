@@ -117,7 +117,7 @@ select {
 }
 
 .secondbase-display {
-  top: 50%;
+  top: 42%;
   left: 60%;
 }
 
@@ -127,7 +127,7 @@ select {
 }
 
 .shortstop-display {
-  top: 50%;
+  top: 42%;
   left: 40%;
 }
 
@@ -157,20 +157,37 @@ select {
   font-weight: bold;
 }
 
-.on-firstbase-display {
+.on-firstbase-display,
+.on-secondbase-display,
+.on-thirdbase-display {
   position: absolute;
-  top: 65%;
-  left: 60%;
-  background-color: yellow;
+  background-color: lightgreen; /* Same background color for all bases */
   padding: 10px;
   border: 2px solid black;
   border-radius: 5px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between button and player name */
+}
+
+.on-firstbase-display {
+  top: 65%;
+  left: 60%;
+}
+
+.on-secondbase-display {
+  top: 46%;
+  left: 46%;
+}
+
+.on-thirdbase-display {
+  top: 65%;
+  left: 30%;
 }
 
 .move-to-base-button {
-  margin-right: 10px; /* Add space between button and player name */
-  padding: 2px 5px; /* Make the button smaller */
+  padding: 2px 5px; /* Small button size */
   background-color: lightblue;
   border: none;
   border-radius: 3px;
