@@ -9,11 +9,11 @@ function App() {
   const [playerOnSecondBase, setPlayerOnSecondBase] = useState(null); // State for second base player
   const [playerOnThirdBase, setPlayerOnThirdBase] = useState(null); // State for third base player
 
-  const [homePlayers, setHomePlayers] = useState(Array(9).fill(''));
-  const [awayPlayers, setAwayPlayers] = useState(Array(9).fill(''));
-  const [homePositions, setHomePositions] = useState(Array(9).fill(''));
-  const [awayPositions, setAwayPositions] = useState(Array(9).fill(''));
-  const positions = ["P", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF"];
+  const [homePlayers, setHomePlayers] = useState(Array(10).fill(''));
+  const [awayPlayers, setAwayPlayers] = useState(Array(10).fill(''));
+  const [homePositions, setHomePositions] = useState(Array(10).fill(''));
+  const [awayPositions, setAwayPositions] = useState(Array(10).fill(''));
+  const positions = ["DH", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF", "P"];
   const classNameMap = {
     P: 'pitcher-display',
     C: 'catcher-display',
@@ -176,16 +176,18 @@ function App() {
       </button>
       {!isTableVisible && (
         <>
-          {positions.map((position) => {
-            const playerName = currentPlayers[currentPositions.indexOf(position)];
-            return (
-              playerName && (
-                <div key={position} className={classNameMap[position]}>
-                  {playerName}
-                </div>
-              )
-            );
-          })}
+          {positions
+            .filter((position) => position !== "DH") // Exclude "DH" from field display
+            .map((position) => {
+              const playerName = currentPlayers[currentPositions.indexOf(position)];
+              return (
+                playerName && (
+                  <div key={position} className={classNameMap[position]}>
+                    {playerName}
+                  </div>
+                )
+              );
+            })}
           {playerOnBase && (
             <div className="on-firstbase-display">
               <button
@@ -225,29 +227,31 @@ function App() {
           <div className="batting-order-display">
             <h3>Batting Order</h3>
             <ol>
-              {battingOrder.map((player, index) => {
-                const isPlayerOnBase =
-                  player === playerOnBase ||
-                  player === playerOnSecondBase ||
-                  player === playerOnThirdBase;
+              {battingOrder
+                .filter((_, index) => currentPositions[index] !== "P") // Exclude players in the "P" position
+                .map((player, index) => {
+                  const isPlayerOnBase =
+                    player === playerOnBase ||
+                    player === playerOnSecondBase ||
+                    player === playerOnThirdBase;
 
-                return (
-                  <li key={index}>
-                    <button
-                      className="move-to-base-button"
-                      onClick={() => handleMoveToBase(player)}
-                      disabled={isPlayerOnBase} // Disable button if player is on a base
-                      style={{
-                        cursor: isPlayerOnBase ? 'not-allowed' : 'pointer',
-                        opacity: isPlayerOnBase ? 0.5 : 1,
-                      }}
-                    >
-                      ←
-                    </button>
-                    {player || `Player ${index + 1}`}
-                  </li>
-                );
-              })}
+                  return (
+                    <li key={index}>
+                      <button
+                        className="move-to-base-button"
+                        onClick={() => handleMoveToBase(player)}
+                        disabled={isPlayerOnBase} // Disable button if player is on a base
+                        style={{
+                          cursor: isPlayerOnBase ? 'not-allowed' : 'pointer',
+                          opacity: isPlayerOnBase ? 0.5 : 1,
+                        }}
+                      >
+                        ←
+                      </button>
+                      {player || `Player ${index + 1}`}
+                    </li>
+                  );
+                })}
             </ol>
           </div>
         </>
@@ -287,7 +291,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {Array.from({ length: 9 }).map((_, index) => (
+              {Array.from({ length: 10 }).map((_, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>
