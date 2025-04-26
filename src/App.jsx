@@ -69,6 +69,11 @@ function App() {
     setAwayPositions(updatedAwayPositions);
   };
 
+  const getAvailablePositions = (teamPositions, currentIndex) => {
+    const selectedPositions = teamPositions.filter((_, i) => i !== currentIndex);
+    return positions.filter((position) => !selectedPositions.includes(position));
+  };
+
   // Get the current players for all positions based on the inning half
   const currentPlayers = isTopInning ? homePlayers : awayPlayers;
   const currentPositions = isTopInning ? homePositions : awayPositions;
@@ -220,7 +225,11 @@ function App() {
                       type="text"
                       value={homePlayers[index]}
                       placeholder={`Home Player ${index + 1}`}
-                      onChange={(e) => handleHomePlayerChange(index, e.target.value)}
+                      onChange={(e) => {
+                        const updatedHomePlayers = [...homePlayers];
+                        updatedHomePlayers[index] = e.target.value;
+                        setHomePlayers(updatedHomePlayers);
+                      }}
                     />
                   </td>
                   <td>
@@ -229,7 +238,7 @@ function App() {
                       onChange={(e) => handleHomePositionChange(index, e.target.value)}
                     >
                       <option value="">Bench</option>
-                      {positions.map((position) => (
+                      {getAvailablePositions(homePositions, index).map((position) => (
                         <option key={position} value={position}>
                           {position}
                         </option>
@@ -241,7 +250,11 @@ function App() {
                       type="text"
                       value={awayPlayers[index]}
                       placeholder={`Away Player ${index + 1}`}
-                      onChange={(e) => handleAwayPlayerChange(index, e.target.value)}
+                      onChange={(e) => {
+                        const updatedAwayPlayers = [...awayPlayers];
+                        updatedAwayPlayers[index] = e.target.value;
+                        setAwayPlayers(updatedAwayPlayers);
+                      }}
                     />
                   </td>
                   <td>
@@ -250,7 +263,7 @@ function App() {
                       onChange={(e) => handleAwayPositionChange(index, e.target.value)}
                     >
                       <option value="">Bench</option>
-                      {positions.map((position) => (
+                      {getAvailablePositions(awayPositions, index).map((position) => (
                         <option key={position} value={position}>
                           {position}
                         </option>
