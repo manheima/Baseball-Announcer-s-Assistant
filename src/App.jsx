@@ -8,6 +8,7 @@ function App() {
   const [playerOnBase, setPlayerOnBase] = useState(null); // State to track player on base
   const [playerOnSecondBase, setPlayerOnSecondBase] = useState(null); // State for second base player
   const [playerOnThirdBase, setPlayerOnThirdBase] = useState(null); // State for third base player
+  const [fontSize, setFontSize] = useState(16); // State to control font size of outfield players
 
   const [homePlayers, setHomePlayers] = useState(Array(10).fill(''));
   const [awayPlayers, setAwayPlayers] = useState(Array(10).fill(''));
@@ -155,6 +156,14 @@ function App() {
     reader.readAsText(file);
   };
 
+  const handleZoomIn = () => {
+    setFontSize((prevFontSize) => prevFontSize + 2); // Increase font size
+  };
+
+  const handleZoomOut = () => {
+    setFontSize((prevFontSize) => Math.max(10, prevFontSize - 2)); // Decrease font size, minimum 10px
+  };
+
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
@@ -174,6 +183,10 @@ function App() {
           ? 'Top Half'
           : 'Bottom Half'}
       </button>
+      <div className="zoom-controls">
+        <button className="zoom-button" onClick={handleZoomIn}>Zoom +</button>
+        <button className="zoom-button" onClick={handleZoomOut}>Zoom -</button>
+      </div>
       {!isTableVisible && (
         <>
           {positions
@@ -182,7 +195,7 @@ function App() {
               const playerName = currentPlayers[currentPositions.indexOf(position)];
               return (
                 playerName && (
-                  <div key={position} className={classNameMap[position]}>
+                  <div key={position} className={classNameMap[position]} style={{ fontSize: `${fontSize}px` }}>
                     {playerName}
                   </div>
                 )
