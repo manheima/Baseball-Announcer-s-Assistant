@@ -240,3 +240,58 @@ select {
 .batting-order-display li {
   margin-bottom: 5px;
 }
+
+.export-import-buttons {
+  display: flex;
+  gap: 1rem; /* Adds spacing between the buttons */
+  align-items: center; /* Aligns items vertically in the center */
+}
+
+.export-import-buttons div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.export-import-buttons input {
+  margin-top: 0.5rem; /* Adds spacing between the button and file input */
+}
+
+.custom-file-input {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  border: none;
+}
+
+.custom-file-input input[type="file"] {
+  display: none; /* Hides the default file input */
+}
+
+.custom-file-input:hover {
+  background-color: #0056b3;
+}
+
+.import-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.import-home,
+.import-away {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}

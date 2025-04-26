@@ -119,6 +119,42 @@ function App() {
   const clearSecondBase = () => setPlayerOnSecondBase(null);
   const clearThirdBase = () => setPlayerOnThirdBase(null);
 
+  // Function to export team data to CSV
+  const exportToCSV = (team, teamName) => {
+    const csvContent = `data:text/csv;charset=utf-8,Player,Position\n` +
+      team.map((player, index) => `${player},${team === homePlayers ? homePositions[index] : awayPositions[index]}`).join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `${teamName}_team.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Function to import team data from CSV
+  const importFromCSV = (event, setPlayers, setPositions) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const lines = e.target.result.split('\n').slice(1); // Skip header
+      const players = [];
+      const positions = [];
+      lines.forEach((line) => {
+        const [player, position] = line.split(',');
+        if (player) {
+          players.push(player.trim());
+          positions.push(position ? position.trim() : '');
+        }
+      });
+      setPlayers(players);
+      setPositions(positions);
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="App">
       <button className="toggle-button" onClick={toggleTableVisibility}>
@@ -218,6 +254,28 @@ function App() {
       )}
       {isTableVisible && (
         <div className="table-container">
+          <div className="import-buttons" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+            <div className="import-home">
+              <label className="custom-file-input">
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) => importFromCSV(e, setHomePlayers, setHomePositions)}
+                />
+                Import Home
+              </label>
+            </div>
+            <div className="import-away">
+              <label className="custom-file-input">
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) => importFromCSV(e, setAwayPlayers, setAwayPositions)}
+                />
+                Import Away
+              </label>
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -286,6 +344,10 @@ function App() {
               ))}
             </tbody>
           </table>
+          <div className="export-buttons" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <button onClick={() => exportToCSV(homePlayers, 'Home')}>Export Home Team</button>
+            <button onClick={() => exportToCSV(awayPlayers, 'Away')}>Export Away Team</button>
+          </div>
         </div>
       )}
     </div>
