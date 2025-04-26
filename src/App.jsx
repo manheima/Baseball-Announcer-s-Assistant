@@ -101,7 +101,7 @@ function App() {
         if (playerOnThirdBase) {
           setPlayerOnThirdBase(null); // Clear third base if occupied
         }
-        setPlayerOnThirdBase(playerOnSecondBase); // Move second base player to third base
+        setPlayerOnThirdBase(playerOnBase); // Move second base player to third base
       }
       setPlayerOnSecondBase(playerOnBase); // Move player from first base to second base
       setPlayerOnBase(null); // Clear first base
@@ -189,17 +189,29 @@ function App() {
           <div className="batting-order-display">
             <h3>Batting Order</h3>
             <ol>
-              {battingOrder.map((player, index) => (
-                <li key={index}>
-                  <button
-                    className="move-to-base-button"
-                    onClick={() => handleMoveToBase(player)}
-                  >
-                    ←
-                  </button>
-                  {player || `Player ${index + 1}`}
-                </li>
-              ))}
+              {battingOrder.map((player, index) => {
+                const isPlayerOnBase =
+                  player === playerOnBase ||
+                  player === playerOnSecondBase ||
+                  player === playerOnThirdBase;
+
+                return (
+                  <li key={index}>
+                    <button
+                      className="move-to-base-button"
+                      onClick={() => handleMoveToBase(player)}
+                      disabled={isPlayerOnBase} // Disable button if player is on a base
+                      style={{
+                        cursor: isPlayerOnBase ? 'not-allowed' : 'pointer',
+                        opacity: isPlayerOnBase ? 0.5 : 1,
+                      }}
+                    >
+                      ←
+                    </button>
+                    {player || `Player ${index + 1}`}
+                  </li>
+                );
+              })}
             </ol>
           </div>
         </>
