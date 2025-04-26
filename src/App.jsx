@@ -86,9 +86,10 @@ function App() {
     if (playerOnBase) {
       if (playerOnSecondBase) {
         if (playerOnThirdBase) {
-          setPlayerOnThirdBase(null); // Clear third base if occupied
+          // Keep the player already on third base
+        } else {
+          setPlayerOnThirdBase(playerOnSecondBase); // Move second base player to third base
         }
-        setPlayerOnThirdBase(playerOnSecondBase); // Move second base player to third base
       }
       setPlayerOnSecondBase(playerOnBase); // Move first base player to second base
     }
@@ -98,10 +99,9 @@ function App() {
   const handleMoveToSecondBase = () => {
     if (playerOnBase) {
       if (playerOnSecondBase) {
-        if (playerOnThirdBase) {
-          setPlayerOnThirdBase(null); // Clear third base if occupied
+        if (!playerOnThirdBase) {
+          setPlayerOnThirdBase(playerOnSecondBase); // Move second base player to third base
         }
-        setPlayerOnThirdBase(playerOnBase); // Move second base player to third base
       }
       setPlayerOnSecondBase(playerOnBase); // Move player from first base to second base
       setPlayerOnBase(null); // Clear first base
