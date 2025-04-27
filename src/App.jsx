@@ -31,6 +31,9 @@ function App() {
     return saved ? JSON.parse(saved) : Array(10).fill('');
   });
 
+  const [homeRosterSuggestions, setHomeRosterSuggestions] = useState([]); // Suggestions for home players
+  const [awayRosterSuggestions, setAwayRosterSuggestions] = useState([]); // Suggestions for away players
+
   const positions = ["DH", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF", "P"];
   const classNameMap = {
     P: 'pitcher-display',
@@ -190,6 +193,23 @@ function App() {
     reader.readAsText(file);
   };
 
+  // Function to handle importing a roster CSV
+  const importRosterFromCSV = (event, setRosterSuggestions) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      const names = content
+        .split(/[\n,]/) // Split by new lines or commas
+        .map((name) => name.trim()) // Trim whitespace
+        .filter((name) => name); // Remove empty strings
+      setRosterSuggestions(names);
+    };
+    reader.readAsText(file);
+  };
+
   const handleZoomIn = () => {
     setFontSize((prevFontSize) => prevFontSize + 2); // Increase font size
   };
@@ -322,25 +342,104 @@ function App() {
       )}
       {isTableVisible && (
         <div className="table-container">
-          <div className="import-buttons" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+          <div
+            className="import-buttons"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: '1rem',
+            }}
+          >
             <div className="import-home">
-              <label className="custom-file-input">
+              <label
+                className="custom-file-input"
+                style={{
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  padding: '10px', // Match the larger button's padding
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  textAlign: 'center',
+                  width: '180px', // Match the larger button's width
+                }}
+              >
                 <input
                   type="file"
                   accept=".csv"
-                  onChange={(e) => importFromCSV(e, setHomePlayers, setHomePositions)}
+                  onChange={(e) =>
+                    importFromCSV(e, setHomePlayers, setHomePositions)
+                  }
+                  style={{ display: 'none' }}
                 />
-                Import Home
+                Import Home Lineup
+              </label>
+              <label
+                className="custom-file-input"
+                style={{
+                  backgroundColor: 'red',
+                  color: 'white',
+                  padding: '10px', // Match the larger button's padding
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  textAlign: 'center',
+                  width: '180px', // Match the larger button's width
+                }}
+              >
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) =>
+                    importRosterFromCSV(e, setHomeRosterSuggestions)
+                  }
+                  style={{ display: 'none' }}
+                />
+                Import Home Roster
               </label>
             </div>
             <div className="import-away">
-              <label className="custom-file-input">
+              <label
+                className="custom-file-input"
+                style={{
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  padding: '10px', // Match the larger button's padding
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  textAlign: 'center',
+                  width: '180px', // Match the larger button's width
+                }}
+              >
                 <input
                   type="file"
                   accept=".csv"
-                  onChange={(e) => importFromCSV(e, setAwayPlayers, setAwayPositions)}
+                  onChange={(e) =>
+                    importFromCSV(e, setAwayPlayers, setAwayPositions)
+                  }
+                  style={{ display: 'none' }}
                 />
-                Import Away
+                Import Away Lineup
+              </label>
+              <label
+                className="custom-file-input"
+                style={{
+                  backgroundColor: 'red',
+                  color: 'white',
+                  padding: '10px', // Match the larger button's padding
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  textAlign: 'center',
+                  width: '180px', // Match the larger button's width
+                }}
+              >
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) =>
+                    importRosterFromCSV(e, setAwayRosterSuggestions)
+                  }
+                  style={{ display: 'none' }}
+                />
+                Import Away Roster
               </label>
             </div>
           </div>
@@ -368,7 +467,13 @@ function App() {
                         updatedHomePlayers[index] = e.target.value;
                         setHomePlayers(updatedHomePlayers);
                       }}
+                      list="home-roster-suggestions"
                     />
+                    <datalist id="home-roster-suggestions">
+                      {homeRosterSuggestions.map((name, idx) => (
+                        <option key={idx} value={name} />
+                      ))}
+                    </datalist>
                   </td>
                   <td>
                     <select
@@ -393,7 +498,13 @@ function App() {
                         updatedAwayPlayers[index] = e.target.value;
                         setAwayPlayers(updatedAwayPlayers);
                       }}
+                      list="away-roster-suggestions"
                     />
+                    <datalist id="away-roster-suggestions">
+                      {awayRosterSuggestions.map((name, idx) => (
+                        <option key={idx} value={name} />
+                      ))}
+                    </datalist>
                   </td>
                   <td>
                     <select
