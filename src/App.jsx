@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -11,10 +11,26 @@ function App() {
   const [fontSize, setFontSize] = useState(16); // State to control font size of outfield players
   const [backgroundPositionY, setBackgroundPositionY] = useState(50); // Initial background position (centered)
 
-  const [homePlayers, setHomePlayers] = useState(Array(10).fill(''));
-  const [awayPlayers, setAwayPlayers] = useState(Array(10).fill(''));
-  const [homePositions, setHomePositions] = useState(Array(10).fill(''));
-  const [awayPositions, setAwayPositions] = useState(Array(10).fill(''));
+  const [homePlayers, setHomePlayers] = useState(() => {
+    const saved = localStorage.getItem('homePlayers');
+    return saved ? JSON.parse(saved) : Array(10).fill('');
+  });
+
+  const [awayPlayers, setAwayPlayers] = useState(() => {
+    const saved = localStorage.getItem('awayPlayers');
+    return saved ? JSON.parse(saved) : Array(10).fill('');
+  });
+
+  const [homePositions, setHomePositions] = useState(() => {
+    const saved = localStorage.getItem('homePositions');
+    return saved ? JSON.parse(saved) : Array(10).fill('');
+  });
+
+  const [awayPositions, setAwayPositions] = useState(() => {
+    const saved = localStorage.getItem('awayPositions');
+    return saved ? JSON.parse(saved) : Array(10).fill('');
+  });
+
   const positions = ["DH", "C", "1B", "2B", "3B", "SS", "RF", "LF", "CF", "P"];
   const classNameMap = {
     P: 'pitcher-display',
@@ -27,6 +43,23 @@ function App() {
     LF: 'leftfield-display',
     CF: 'centerfield-display',
   };
+
+  // Save to localStorage whenever the states change
+  useEffect(() => {
+    localStorage.setItem('homePlayers', JSON.stringify(homePlayers));
+  }, [homePlayers]);
+
+  useEffect(() => {
+    localStorage.setItem('awayPlayers', JSON.stringify(awayPlayers));
+  }, [awayPlayers]);
+
+  useEffect(() => {
+    localStorage.setItem('homePositions', JSON.stringify(homePositions));
+  }, [homePositions]);
+
+  useEffect(() => {
+    localStorage.setItem('awayPositions', JSON.stringify(awayPositions));
+  }, [awayPositions]);
 
   const toggleTableVisibility = () => {
     setIsTableVisible(!isTableVisible);
