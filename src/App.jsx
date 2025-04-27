@@ -523,6 +523,38 @@ function App() {
               ))}
             </tbody>
           </table>
+          <div
+            className="table-controls"
+            style={{
+              display: 'flex',
+              justifyContent: 'center', // Center the button horizontally
+              marginTop: '1rem',
+            }}
+          >
+            <button
+              className="clear-table-button"
+              onClick={() => {
+                setHomePlayers(Array(10).fill(''));
+                setAwayPlayers(Array(10).fill(''));
+                setHomePositions(Array(10).fill(''));
+                setAwayPositions(Array(10).fill(''));
+                localStorage.removeItem('homePlayers');
+                localStorage.removeItem('awayPlayers');
+                localStorage.removeItem('homePositions');
+                localStorage.removeItem('awayPositions');
+              }}
+              style={{
+                backgroundColor: 'red',
+                color: 'white',
+                padding: '10px',
+                borderRadius: '5px',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              Clear Table
+            </button>
+          </div>
           <div className="export-buttons" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
             <button onClick={() => exportToCSV(homePlayers, 'Home')}>Export Home Team</button>
             <button onClick={() => exportToCSV(awayPlayers, 'Away')}>Export Away Team</button>
