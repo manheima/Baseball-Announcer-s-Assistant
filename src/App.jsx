@@ -9,6 +9,7 @@ function App() {
   const [playerOnSecondBase, setPlayerOnSecondBase] = useState(null); // State for second base player
   const [playerOnThirdBase, setPlayerOnThirdBase] = useState(null); // State for third base player
   const [fontSize, setFontSize] = useState(16); // State to control font size of outfield players
+  const [backgroundPositionY, setBackgroundPositionY] = useState(50); // Initial background position (centered)
 
   const [homePlayers, setHomePlayers] = useState(Array(10).fill(''));
   const [awayPlayers, setAwayPlayers] = useState(Array(10).fill(''));
@@ -164,8 +165,21 @@ function App() {
     setFontSize((prevFontSize) => Math.max(10, prevFontSize - 2)); // Decrease font size, minimum 10px
   };
 
+  const moveBackgroundUp = () => {
+    setBackgroundPositionY((prev) => Math.max(prev - 5, 0)); // Move up, limit to 0%
+  };
+
+  const moveBackgroundDown = () => {
+    setBackgroundPositionY((prev) => Math.min(prev + 5, 100)); // Move down, limit to 100%
+  };
+
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{
+        backgroundPosition: `center ${backgroundPositionY}%`, // Dynamically set background position
+      }}
+    >
       <button className="toggle-button" onClick={toggleTableVisibility}>
         {isTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
@@ -186,6 +200,10 @@ function App() {
       <div className="zoom-controls">
         <button className="zoom-button" onClick={handleZoomIn}>Zoom +</button>
         <button className="zoom-button" onClick={handleZoomOut}>Zoom -</button>
+      </div>
+      <div className="arrow-controls">
+        <button className="arrow-button" onClick={moveBackgroundUp}>↑</button>
+        <button className="arrow-button" onClick={moveBackgroundDown}>↓</button>
       </div>
       {!isTableVisible && (
         <>
