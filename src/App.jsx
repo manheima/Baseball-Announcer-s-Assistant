@@ -108,8 +108,7 @@ function App() {
   };
 
   const getAvailablePositions = (teamPositions, currentIndex) => {
-    const selectedPositions = teamPositions.filter((_, i) => i !== currentIndex);
-    return positions.filter((position) => !selectedPositions.includes(position));
+    return positions; // Allow all positions to be selectable
   };
 
   // Get the current players for all positions based on the inning half
