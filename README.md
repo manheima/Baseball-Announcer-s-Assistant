@@ -8,8 +8,10 @@ This is a React-based application designed to assist baseball announcers in mana
 
 ## Features
 
-- Import team data (Home and Away) from CSV files.
-- Export team data (Home and Away) to CSV files.
 - Manage player positions and batting order.
-- Toggle between top and bottom innings.
-- Show or hide the game table for better focus.
+- Visually see all players on the field.
+- Toggle between top and bottom innings to automatically switch batters and fielders.
+- Zoom buttons allow increasing name size for easier readability.
+- Import team lineup from CSV files for fast setup.
+- Export team lineup to CSV files.
+- Import team roster to allow name auto-complete when setting up.
