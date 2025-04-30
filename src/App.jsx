@@ -235,9 +235,9 @@ function App() {
       teamPlayers.forEach((player, index) => {
         const position = teamPositions[index];
         if (position === '') {
-          warnings.push(`Warning: ${player || `Player ${index + 1}`} is still assigned Bench on the ${teamName} team.`);
+          warnings.push(`${player || `Player ${index + 1}`} is still assigned Bench on the ${teamName} team.`);
         } else if (positionMap[position]) {
-          warnings.push(`Warning: ${positionMap[position]} and ${player} are both assigned ${position} on the ${teamName} team.`);
+          warnings.push(`${positionMap[position]} and ${player} are both assigned ${position} on the ${teamName} team.`);
         } else {
           positionMap[position] = player;
         }
