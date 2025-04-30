@@ -4,7 +4,7 @@
 
 This is a React-based application designed to assist baseball announcers in managing team lineups, positions, and game details. The app allows users to import/export team data, manage player positions, and toggle between game states.
 
-![App Screenshot](public/BaseballAnnouncerSecreenshot.png)
+![App Screenshot](public/AppInUse.png)
 
 ## Features
 
