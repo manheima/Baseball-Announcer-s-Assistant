@@ -10,7 +10,9 @@ function App() {
   const [playerOnThirdBase, setPlayerOnThirdBase] = useState(null); // State for third base player
   const [fontSize, setFontSize] = useState(16); // State to control font size of outfield players
   const [backgroundPositionY, setBackgroundPositionY] = useState(50); // Initial background position (centered)
-  const [showClearTablePopup, setShowClearTablePopup] = useState(false); // State for popup visibility
+  const [showClearTablePopup, setShowClearTablePopup] = useState(false); // State for clear table popup visibility
+  const [showWarningPopup, setShowWarningPopup] = useState(false); // State for warning popup visibility
+  const [warningMessages, setWarningMessages] = useState([]); // State to store warning messages
 
   const [homePlayers, setHomePlayers] = useState(() => {
     const saved = localStorage.getItem('homePlayers');
@@ -226,6 +228,43 @@ function App() {
     setBackgroundPositionY((prev) => Math.min(prev + 5, 100)); // Move down, limit to 100%
   };
 
+  const validatePositions = () => {
+    const warnings = [];
+    const checkTeam = (teamPlayers, teamPositions, teamName) => {
+      const positionMap = {};
+      teamPlayers.forEach((player, index) => {
+        const position = teamPositions[index];
+        if (position === '') {
+          warnings.push(`Warning: ${player || `Player ${index + 1}`} is still assigned Bench on the ${teamName} team.`);
+        } else if (positionMap[position]) {
+          warnings.push(`Warning: ${positionMap[position]} and ${player} are both assigned ${position} on the ${teamName} team.`);
+        } else {
+          positionMap[position] = player;
+        }
+      });
+    };
+
+    checkTeam(homePlayers, homePositions, 'Home');
+    checkTeam(awayPlayers, awayPositions, 'Away');
+
+    return warnings;
+  };
+
+  const handleToggleTableVisibility = () => {
+    if (isTableVisible) {
+      // Validate positions only when hiding the table
+      const warnings = validatePositions();
+      if (warnings.length > 0) {
+        setWarningMessages(warnings);
+        setShowWarningPopup(true); // Show the warning popup
+      } else {
+        setIsTableVisible(false); // Hide the table if no warnings
+      }
+    } else {
+      setIsTableVisible(true); // Show the table without validation
+    }
+  };
+
   const clearTable = () => {
     setHomePlayers(Array(10).fill(''));
     setAwayPlayers(Array(10).fill(''));
@@ -245,7 +284,7 @@ function App() {
         backgroundPosition: `center ${backgroundPositionY}%`, // Dynamically set background position
       }}
     >
-      <button className="toggle-button" onClick={toggleTableVisibility}>
+      <button className="toggle-button" onClick={handleToggleTableVisibility}>
         {isTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
       <button
@@ -580,7 +619,51 @@ function App() {
         </div>
       )}
 
-      {/* Confirmation Popup */}
+      {/* Warning Popup */}
+      {showWarningPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <p>The following issues were found:</p>
+            <ul>
+              {warningMessages.map((message, index) => (
+                <li key={index}>{message}</li>
+              ))}
+            </ul>
+            <div className="popup-buttons">
+              <button
+                onClick={() => setShowWarningPopup(false)} // Close the popup
+                style={{
+                  marginRight: '10px',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Back
+              </button>
+              <button
+                onClick={() => {
+                  setShowWarningPopup(false); // Close the popup
+                  setIsTableVisible(false); // Hide the table
+                }}
+                style={{
+                  backgroundColor: 'red',
+                  color: 'white',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Clear Table Popup */}
       {showClearTablePopup && (
         <div className="popup-overlay">
           <div className="popup">
