@@ -10,6 +10,7 @@ function App() {
   const [playerOnThirdBase, setPlayerOnThirdBase] = useState(null); // State for third base player
   const [fontSize, setFontSize] = useState(16); // State to control font size of outfield players
   const [backgroundPositionY, setBackgroundPositionY] = useState(50); // Initial background position (centered)
+  const [showClearTablePopup, setShowClearTablePopup] = useState(false); // State for popup visibility
 
   const [homePlayers, setHomePlayers] = useState(() => {
     const saved = localStorage.getItem('homePlayers');
@@ -223,6 +224,18 @@ function App() {
 
   const moveBackgroundDown = () => {
     setBackgroundPositionY((prev) => Math.min(prev + 5, 100)); // Move down, limit to 100%
+  };
+
+  const clearTable = () => {
+    setHomePlayers(Array(10).fill(''));
+    setAwayPlayers(Array(10).fill(''));
+    setHomePositions(Array(10).fill(''));
+    setAwayPositions(Array(10).fill(''));
+    localStorage.removeItem('homePlayers');
+    localStorage.removeItem('awayPlayers');
+    localStorage.removeItem('homePositions');
+    localStorage.removeItem('awayPositions');
+    setShowClearTablePopup(false); // Close the popup after clearing
   };
 
   return (
@@ -547,16 +560,7 @@ function App() {
           >
             <button
               className="clear-table-button"
-              onClick={() => {
-                setHomePlayers(Array(10).fill(''));
-                setAwayPlayers(Array(10).fill(''));
-                setHomePositions(Array(10).fill(''));
-                setAwayPositions(Array(10).fill(''));
-                localStorage.removeItem('homePlayers');
-                localStorage.removeItem('awayPlayers');
-                localStorage.removeItem('homePositions');
-                localStorage.removeItem('awayPositions');
-              }}
+              onClick={() => setShowClearTablePopup(true)} // Show the popup
               style={{
                 backgroundColor: 'red',
                 color: 'white',
@@ -572,6 +576,42 @@ function App() {
           <div className="export-buttons" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
             <button onClick={() => exportToCSV(homePlayers, 'Home')}>Export Home Team</button>
             <button onClick={() => exportToCSV(awayPlayers, 'Away')}>Export Away Team</button>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Popup */}
+      {showClearTablePopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <p>Are you sure you want to clear the table?</p>
+            <div className="popup-buttons">
+              <button
+                onClick={() => setShowClearTablePopup(false)} // Close the popup
+                style={{
+                  marginRight: '10px',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={clearTable} // Clear the table
+                style={{
+                  backgroundColor: 'red',
+                  color: 'white',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Yes
+              </button>
+            </div>
           </div>
         </div>
       )}
