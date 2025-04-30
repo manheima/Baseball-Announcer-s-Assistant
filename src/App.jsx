@@ -272,7 +272,12 @@ function App() {
               );
             })}
           {playerOnBase && (
-            <div className="on-firstbase-display">
+            <div
+              className="on-firstbase-display"
+              style={{
+                fontSize: `${fontSize}px`, // Dynamically set font size
+              }}
+            >
               <button
                 className="move-to-base-button"
                 onClick={handleMoveToSecondBase}
@@ -286,7 +291,12 @@ function App() {
             </div>
           )}
           {playerOnSecondBase && (
-            <div className="on-secondbase-display">
+            <div
+              className="on-secondbase-display"
+              style={{
+                fontSize: `${fontSize}px`, // Dynamically set font size
+              }}
+            >
               <button
                 className="move-to-base-button"
                 onClick={handleMoveToThirdBase}
@@ -300,7 +310,12 @@ function App() {
             </div>
           )}
           {playerOnThirdBase && (
-            <div className="on-thirdbase-display">
+            <div
+              className="on-thirdbase-display"
+              style={{
+                fontSize: `${fontSize}px`, // Dynamically set font size
+              }}
+            >
               {playerOnThirdBase}
               <button className="clear-base-button" onClick={clearThirdBase}>
                 x
